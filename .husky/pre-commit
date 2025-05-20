@@ -1,0 +1,5 @@
+echo 'Formarting code on Backend'
+npm run format || (echo 'Prettier on Backend Failed' && exit 1)
+echo 'Checking Lint for Backend'
+npm run lint || (echo 'Lint on Backend Failed' && exit 1)
+echo 'Lint and Format Finished'
