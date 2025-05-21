@@ -1,5 +1,7 @@
 echo 'Formarting code on Backend'
-npm run format || (echo 'Prettier on Backend Failed' && exit 1)
-echo 'Checking Lint for Backend'
-npm run lint || (echo 'Lint on Backend Failed' && exit 1)
+npx lint-staged || (echo 'Prettier on Backend Failed' && exit 1)
+echo 'Running Unit and Functionals Tests'
+npm run test || (echo 'Tests on Backend Failed' && exit 1)
+echo 'Running e2e Tests'
+npm run test:e2e || (echo 'E2E Tests on Backend Failed' && exit 1)
 echo 'Lint and Format Finished'
