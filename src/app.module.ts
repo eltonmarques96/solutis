@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         },
       ],
     }),
+    LoggerModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
