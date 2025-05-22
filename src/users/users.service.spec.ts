@@ -111,4 +111,22 @@ describe('UsersService', () => {
     expect(user[0].city).toEqual(newParams.city);
     expect(user[0].state).toEqual(newParams.state);
   });
+
+  it('should delete an user', async () => {
+    const userParams: CreateUserDto = {
+      firstName: 'John',
+      lastName: 'Lennon',
+      email: 'john.lennon@beatles.com',
+      personalCode: '675.647.900-83',
+      city: 'Walton',
+      state: 'Liverpool',
+    };
+    expect(userService).toBeDefined();
+    await userService.create(userParams);
+    let user = await userService.findByEmail(userParams.email);
+    expect(user.length).toEqual(1);
+    await userService.remove(user[0].id);
+    user = await userService.findByEmail(userParams.email);
+    expect(user.length).toEqual(0);
+  });
 });
