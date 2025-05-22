@@ -34,7 +34,7 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() response: Response) {
-    const user = await this.usersService.findOne(+id);
+    const user = await this.usersService.findOne(id);
     return response.status(200).json(user);
   }
 
