@@ -20,6 +20,15 @@ export class User {
   @Column({ nullable: false, unique: true })
   email: string;
 
+  @Column({ nullable: false, unique: true, length: 14 })
+  personalCode: string;
+
+  @Column({ nullable: false })
+  city: string;
+
+  @Column({ nullable: false })
+  state: string;
+
   @CreateDateColumn()
   createdAt: string;
 

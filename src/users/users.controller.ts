@@ -6,37 +6,51 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(
+    @Res() response: Response,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    const user = await this.usersService.create(createUserDto);
+    return response.status(201).json(user);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(@Res() response: Response) {
+    const users = await this.usersService.findAll();
+    return response.status(200).json(users);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string, @Res() response: Response) {
+    const user = await this.usersService.findOne(+id);
+    return response.status(200).json(user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() response: Response,
+  ) {
+    const user = await this.usersService.update(+id, updateUserDto);
+    return response.status(200).json(user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: string, @Res() response: Response) {
+    await this.usersService.remove(+id);
+    return response.status(200).json({ data: 'ok' });
   }
 }

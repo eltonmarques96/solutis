@@ -14,6 +14,18 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     try {
+      const checkUser = await this.userRepository.findBy({
+        email: createUserDto.email,
+      });
+      if (checkUser.length > 0) {
+        throw new Error('User Already exists');
+      }
+      const secondCheckUser = await this.userRepository.findBy({
+        personalCode: createUserDto.personalCode,
+      });
+      if (secondCheckUser.length > 0) {
+        throw new Error('User Already exists');
+      }
       const createdUser = await this.userRepository.save(createUserDto);
       return createdUser;
     } catch (error) {
@@ -38,8 +50,9 @@ export class UsersService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: Partial<UpdateUserDto>) {
+    await this.userRepository.update(id, updateUserDto);
+    return this.userRepository.findOneBy({ id: updateUserDto.id });
   }
 
   remove(id: number) {
