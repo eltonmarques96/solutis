@@ -3,5 +3,5 @@
 ## Ferramentas
 
 - Rate Limit
-- Prisma as ORM
+- TypeORM as ORM
 - Postgres as Database
