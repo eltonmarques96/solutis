@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Farm } from '../../farms/entities/farm.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -34,4 +37,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: string;
+
+  @OneToMany((type) => Farm, (farm) => farm.user)
+  farms: Farm[];
 }

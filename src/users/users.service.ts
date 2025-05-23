@@ -18,13 +18,13 @@ export class UsersService {
         email: createUserDto.email,
       });
       if (checkUser.length > 0) {
-        throw new Error('User Already exists');
+        return;
       }
       const secondCheckUser = await this.userRepository.findBy({
         personalCode: createUserDto.personalCode,
       });
       if (secondCheckUser.length > 0) {
-        throw new Error('User Already exists');
+        return;
       }
       const createdUser = await this.userRepository.save(createUserDto);
       return createdUser;
@@ -37,20 +37,23 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return this.userRepository.findBy({ id });
   }
 
   async findByEmail(email: string) {
     try {
-      const user = await this.userRepository.findBy({ email });
+      const user = await this.userRepository.findOne({
+        where: { email },
+        relations: ['farms'],
+      });
       return user;
     } catch (error) {
       return error;
     }
   }
 
-  async update(id: number, updateUserDto: Partial<UpdateUserDto>) {
+  async update(id: string, updateUserDto: Partial<UpdateUserDto>) {
     await this.userRepository.update(id, updateUserDto);
     return this.userRepository.findOneBy({ id: updateUserDto.id });
   }

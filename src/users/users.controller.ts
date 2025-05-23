@@ -34,7 +34,7 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() response: Response) {
-    const user = await this.usersService.findOne(+id);
+    const user = await this.usersService.findOne(id);
     return response.status(200).json(user);
   }
 
@@ -44,7 +44,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Res() response: Response,
   ) {
-    const user = await this.usersService.update(+id, updateUserDto);
+    const user = await this.usersService.update(id, updateUserDto);
     return response.status(200).json(user);
   }
 

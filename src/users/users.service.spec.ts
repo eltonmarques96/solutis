@@ -37,7 +37,7 @@ describe('UsersService', () => {
     await userService.create(userParams);
     const user = await userService.findByEmail(userParams.email);
     expect(user).toBeDefined();
-    expect(user[0].email).toEqual(userParams.email);
+    expect(user.email).toEqual(userParams.email);
   });
 
   it('should not create two users with same email', async () => {
@@ -50,8 +50,8 @@ describe('UsersService', () => {
       state: 'Liverpool',
     };
     const secondUserParams: CreateUserDto = {
-      firstName: 'John',
-      lastName: 'Lennon',
+      firstName: 'Elton',
+      lastName: 'John',
       email: 'john.lennon@beatles.com',
       personalCode: '675.647.900-83',
       city: 'Merseyside',
@@ -59,9 +59,8 @@ describe('UsersService', () => {
     };
     expect(userService).toBeDefined();
     await userService.create(firstUserParams);
-    await userService.create(secondUserParams);
-    const user = await userService.findByEmail(secondUserParams.email);
-    expect(user.length).toEqual(1);
+    const secondUser = await userService.create(secondUserParams);
+    expect(secondUser).toBeUndefined();
   });
 
   it('should not create two users with cpf', async () => {
@@ -85,7 +84,7 @@ describe('UsersService', () => {
     await userService.create(firstUserParams);
     await userService.create(secondUserParams);
     const user = await userService.findByEmail(secondUserParams.email);
-    expect(user.length).toEqual(0);
+    expect(user).toBeNull();
   });
 
   it('should edit an user', async () => {
@@ -106,10 +105,10 @@ describe('UsersService', () => {
     expect(userService).toBeDefined();
     await userService.create(userParams);
     let user = await userService.findByEmail(userParams.email);
-    await userService.update(user[0].id, newParams);
+    await userService.update(user.id, newParams);
     user = await userService.findByEmail(userParams.email);
-    expect(user[0].city).toEqual(newParams.city);
-    expect(user[0].state).toEqual(newParams.state);
+    expect(user.city).toEqual(newParams.city);
+    expect(user.state).toEqual(newParams.state);
   });
 
   it('should delete an user', async () => {
@@ -124,9 +123,10 @@ describe('UsersService', () => {
     expect(userService).toBeDefined();
     await userService.create(userParams);
     let user = await userService.findByEmail(userParams.email);
-    expect(user.length).toEqual(1);
-    await userService.remove(user[0].id);
+    expect(user).toBeDefined();
+    expect(user.email).toEqual(userParams.email);
+    await userService.remove(user.id);
     user = await userService.findByEmail(userParams.email);
-    expect(user.length).toEqual(0);
+    expect(user).toBeNull();
   });
 });
