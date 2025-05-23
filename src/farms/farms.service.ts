@@ -15,6 +15,12 @@ export class FarmsService {
   ) {}
 
   async create(createFarmDto: CreateFarmDto): Promise<Farm> {
+    if (
+      createFarmDto.areableArea + createFarmDto.vegetationArea !==
+      createFarmDto.totalArea
+    ) {
+      return null;
+    }
     const user = await this.userService.findOne(createFarmDto.userId);
     createFarmDto = { ...createFarmDto, user: user[0] };
     return await this.farmRepository.save(createFarmDto);

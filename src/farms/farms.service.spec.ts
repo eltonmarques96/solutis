@@ -54,4 +54,28 @@ describe('FarmsService', () => {
     const farmResponse = await farmService.findOne(farm.id);
     expect(farmResponse.length).toEqual(1);
   });
+  it('should not create a farm with total area incompatible with vegetation area and areable area', async () => {
+    const userParams: CreateUserDto = {
+      firstName: 'John',
+      lastName: 'Lennon',
+      email: 'john.lennon@beatles.com',
+      personalCode: '675.647.900-83',
+      city: 'Walton',
+      state: 'Liverpool',
+    };
+    expect(userService).toBeDefined();
+    await userService.create(userParams);
+    const userResponse = await userService.findByEmail(userParams.email);
+    const user = userResponse[0];
+    const farmData = {
+      name: 'Farm A',
+      totalArea: 100,
+      areableArea: 60,
+      vegetationArea: 50,
+      userId: user.id,
+    };
+    const farm = await farmService.create(farmData);
+    expect(farmService).toBeDefined();
+    expect(farm).toBeNull();
+  });
 });
