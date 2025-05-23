@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { DataSource } from 'typeorm';
 import { Farm } from '../farms/entities/farm.entity';
+import { Havert } from '../haverts/entities/havert.entity';
 
 export function getTypeOrmConfig(): TypeOrmModuleOptions {
   const isTest = process.env.NODE_ENV === 'test';
@@ -11,7 +12,7 @@ export function getTypeOrmConfig(): TypeOrmModuleOptions {
     database: ':memory:',
     synchronize: isTest,
     dropSchema: isTest,
-    entities: [User, Farm],
+    entities: [User, Farm, Havert],
   };
   const postgresConfiguration: TypeOrmModuleOptions = {
     type: 'postgres',
@@ -23,7 +24,7 @@ export function getTypeOrmConfig(): TypeOrmModuleOptions {
     synchronize: false,
     dropSchema: false,
     autoLoadEntities: true,
-    entities: [User, Farm],
+    entities: [User, Farm, Havert],
   };
   if (isTest) {
     return sqliteConfiguration;

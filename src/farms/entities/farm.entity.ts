@@ -1,3 +1,4 @@
+import { Havert } from '../../haverts/entities/havert.entity';
 import { User } from '../../users/entities/user.entity';
 import {
   Entity,
@@ -6,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -27,6 +29,9 @@ export class Farm {
 
   @ManyToOne(() => User, (user) => user.farms)
   user: User;
+
+  @OneToMany(() => Havert, (harvest) => harvest.farm)
+  harvests: Havert[];
 
   @CreateDateColumn()
   createdAt: string;

@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { FarmsModule } from './farms/farms.module';
+import { HavertsModule } from './haverts/haverts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { FarmsModule } from './farms/farms.module';
     }),
     UsersModule,
     FarmsModule,
+    HavertsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
