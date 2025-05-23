@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { FarmsModule } from './farms/farms.module';
 import { HavertsModule } from './haverts/haverts.module';
+import { CultivationsModule } from './cultivations/cultivations.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { HavertsModule } from './haverts/haverts.module';
     UsersModule,
     FarmsModule,
     HavertsModule,
+    CultivationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

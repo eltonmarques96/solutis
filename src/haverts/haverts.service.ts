@@ -30,7 +30,10 @@ export class HavertsService {
   }
 
   async findOne(id: string) {
-    return this.harvestRespository.findBy({ id });
+    return this.harvestRespository.findOne({
+      where: { id },
+      relations: ['cultivations'],
+    });
   }
 
   async update(id: number, updateHavertDto: UpdateHavertDto) {

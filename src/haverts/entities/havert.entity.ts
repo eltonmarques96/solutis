@@ -1,3 +1,4 @@
+import { Cultivation } from '../../cultivations/entities/cultivation.entity';
 import { Farm } from '../../farms/entities/farm.entity';
 import {
   Entity,
@@ -6,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -18,6 +20,9 @@ export class Havert {
 
   @ManyToOne(() => Farm, (farm) => farm.harvests)
   farm: Farm;
+
+  @OneToMany(() => Cultivation, (cultivation) => cultivation.harvert)
+  cultivations: Cultivation[];
 
   @CreateDateColumn()
   createdAt: string;
