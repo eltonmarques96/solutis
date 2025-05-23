@@ -22,6 +22,9 @@ export class FarmsService {
       return null;
     }
     const user = await this.userService.findOne(createFarmDto.userId);
+    if (!user) {
+      return;
+    }
     createFarmDto = { ...createFarmDto, user: user[0] };
     return await this.farmRepository.save(createFarmDto);
   }
@@ -31,7 +34,10 @@ export class FarmsService {
   }
 
   async findOne(id: string) {
-    return this.farmRepository.findBy({ id });
+    return this.farmRepository.findOne({
+      where: { id },
+      relations: ['harvests'],
+    });
   }
 
   async update(id: string, updateFarmDto: UpdateFarmDto) {

@@ -8,17 +8,26 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfig } from '../src/config/typeorm.config';
 import { User } from '../src/users/entities/user.entity';
 import { Farm } from '../src/farms/entities/farm.entity';
+import { Havert } from '../src/haverts/entities/havert.entity';
+import { HavertsService } from '../src/haverts/haverts.service';
+import { Cultivation } from '../src/cultivations/entities/cultivation.entity';
+import { CultivationsService } from '../src/cultivations/cultivations.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      providers: [FarmsService, UsersService],
+      providers: [
+        FarmsService,
+        UsersService,
+        HavertsService,
+        CultivationsService,
+      ],
       imports: [
         AppModule,
         TypeOrmModule.forRoot(getTypeOrmConfig()),
-        TypeOrmModule.forFeature([User, Farm]),
+        TypeOrmModule.forFeature([User, Farm, Havert, Cultivation]),
       ],
     }).compile();
 
