@@ -1,0 +1,7 @@
+echo 'Formarting code on Backend'
+npx lint-staged || (echo 'Prettier on Backend Failed' && exit 1)
+echo 'Running Unit and Functionals Tests'
+npm run test || (echo 'Tests on Backend Failed' && exit 1)
+echo 'Running e2e Tests'
+npm run test:e2e || (echo 'E2E Tests on Backend Failed' && exit 1)
+echo 'Lint and Format Finished'

@@ -1,0 +1,50 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable } from '@nestjs/common';
+import { CreateFarmDto } from './dto/create-farm.dto';
+import { UpdateFarmDto } from './dto/update-farm.dto';
+import { Farm } from './entities/farm.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UsersService } from '../users/users.service';
+
+@Injectable()
+export class FarmsService {
+  constructor(
+    @InjectRepository(Farm) private readonly farmRepository: Repository<Farm>,
+    private readonly userService: UsersService,
+  ) {}
+
+  async create(createFarmDto: CreateFarmDto): Promise<Farm> {
+    if (
+      createFarmDto.areableArea + createFarmDto.vegetationArea !==
+      createFarmDto.totalArea
+    ) {
+      return null;
+    }
+    const user = await this.userService.findOne(createFarmDto.userId);
+    if (!user) {
+      return;
+    }
+    createFarmDto = { ...createFarmDto, user: user[0] };
+    return await this.farmRepository.save(createFarmDto);
+  }
+
+  async findAll() {
+    return `This action returns all farms`;
+  }
+
+  async findOne(id: string) {
+    return this.farmRepository.findOne({
+      where: { id },
+      relations: ['harvests'],
+    });
+  }
+
+  async update(id: string, updateFarmDto: UpdateFarmDto) {
+    return `This action updates a #${id} farm`;
+  }
+
+  async remove(id: number) {
+    return `This action removes a #${id} farm`;
+  }
+}
