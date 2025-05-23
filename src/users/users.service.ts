@@ -18,13 +18,13 @@ export class UsersService {
         email: createUserDto.email,
       });
       if (checkUser.length > 0) {
-        throw new Error('User Already exists');
+        return;
       }
       const secondCheckUser = await this.userRepository.findBy({
         personalCode: createUserDto.personalCode,
       });
       if (secondCheckUser.length > 0) {
-        throw new Error('User Already exists');
+        return;
       }
       const createdUser = await this.userRepository.save(createUserDto);
       return createdUser;
@@ -43,7 +43,10 @@ export class UsersService {
 
   async findByEmail(email: string) {
     try {
-      const user = await this.userRepository.findBy({ email });
+      const user = await this.userRepository.findOne({
+        where: { email },
+        relations: ['farms'],
+      });
       return user;
     } catch (error) {
       return error;

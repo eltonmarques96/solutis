@@ -40,8 +40,7 @@ describe('FarmsService', () => {
     };
     expect(userService).toBeDefined();
     await userService.create(userParams);
-    const userResponse = await userService.findByEmail(userParams.email);
-    const user = userResponse[0];
+    const user = await userService.findByEmail(userParams.email);
     const farmData = {
       name: 'Farm A',
       totalArea: 100,
@@ -65,8 +64,7 @@ describe('FarmsService', () => {
     };
     expect(userService).toBeDefined();
     await userService.create(userParams);
-    const userResponse = await userService.findByEmail(userParams.email);
-    const user = userResponse[0];
+    const user = await userService.findByEmail(userParams.email);
     const farmData = {
       name: 'Farm A',
       totalArea: 100,
@@ -77,5 +75,37 @@ describe('FarmsService', () => {
     const farm = await farmService.create(farmData);
     expect(farmService).toBeDefined();
     expect(farm).toBeNull();
+  });
+  it('should create two farms for an unique user', async () => {
+    const userParams: CreateUserDto = {
+      firstName: 'John',
+      lastName: 'Lennon',
+      email: 'john.lennon@beatles.com',
+      personalCode: '675.647.900-83',
+      city: 'Walton',
+      state: 'Liverpool',
+    };
+    expect(userService).toBeDefined();
+    await userService.create(userParams);
+    const user = await userService.findByEmail(userParams.email);
+    const farmAData = {
+      name: 'Farm A',
+      totalArea: 100,
+      areableArea: 60,
+      vegetationArea: 40,
+      userId: user.id,
+    };
+    const farmBData = {
+      name: 'Farm B',
+      totalArea: 150,
+      areableArea: 60,
+      vegetationArea: 90,
+      userId: user.id,
+    };
+    await farmService.create(farmAData);
+    await farmService.create(farmBData);
+    expect(farmService).toBeDefined();
+    const userResponse = await userService.findByEmail(userParams.email);
+    expect(userResponse.farms.length).toEqual(2);
   });
 });
