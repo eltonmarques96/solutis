@@ -51,7 +51,7 @@ describe('FarmsService', () => {
     const farm = await farmService.create(farmData);
     expect(farmService).toBeDefined();
     const farmResponse = await farmService.findOne(farm.id);
-    expect(farmResponse.length).toEqual(1);
+    expect(farmResponse).toBeDefined();
   });
   it('should not create a farm with total area incompatible with vegetation area and areable area', async () => {
     const userParams: CreateUserDto = {

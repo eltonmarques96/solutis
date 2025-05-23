@@ -60,4 +60,36 @@ describe('HavertsService', () => {
     const harvestResponse = await harvestService.findOne(harvest.id);
     expect(harvestResponse.length).toEqual(1);
   });
+  it('should create two harvests for a single farm', async () => {
+    const userParams: CreateUserDto = {
+      firstName: 'John',
+      lastName: 'Lennon',
+      email: 'john.lennon@beatles.com',
+      personalCode: '675.647.900-83',
+      city: 'Walton',
+      state: 'Liverpool',
+    };
+    expect(userService).toBeDefined();
+    await userService.create(userParams);
+    const user = await userService.findByEmail(userParams.email);
+    const farmData = {
+      name: 'Farm A',
+      totalArea: 100,
+      areableArea: 60,
+      vegetationArea: 40,
+      userId: user.id,
+    };
+    const farm = await farmService.create(farmData);
+    expect(farmService).toBeDefined();
+    await harvestService.create({
+      name: 'Safra 2025',
+      farmId: farm.id,
+    });
+    await harvestService.create({
+      name: 'Safra 2023',
+      farmId: farm.id,
+    });
+    const farmCount = await farmService.findOne(farm.id);
+    expect(farmCount.harvests.length).toEqual(2);
+  });
 });

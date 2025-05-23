@@ -17,6 +17,11 @@ export class HavertsService {
     private readonly farmService: FarmsService,
   ) {}
   async create(createHavertDto: CreateHavertDto) {
+    const farm = await this.farmService.findOne(createHavertDto.farmId);
+    if (!farm) {
+      return;
+    }
+    createHavertDto = { ...createHavertDto, farm: farm };
     return await this.harvestRespository.save(createHavertDto);
   }
 
