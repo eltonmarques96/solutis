@@ -34,7 +34,7 @@ export class FarmsService {
     return this.farmRepository.findBy({ id });
   }
 
-  async update(id: number, updateFarmDto: UpdateFarmDto) {
+  async update(id: string, updateFarmDto: UpdateFarmDto) {
     return `This action updates a #${id} farm`;
   }
 

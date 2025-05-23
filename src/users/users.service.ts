@@ -53,7 +53,7 @@ export class UsersService {
     }
   }
 
-  async update(id: number, updateUserDto: Partial<UpdateUserDto>) {
+  async update(id: string, updateUserDto: Partial<UpdateUserDto>) {
     await this.userRepository.update(id, updateUserDto);
     return this.userRepository.findOneBy({ id: updateUserDto.id });
   }
